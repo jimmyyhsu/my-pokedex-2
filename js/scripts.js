@@ -25,8 +25,8 @@ var pokemonRepository = (function() {    //Start of IIFE
     var $listItem = $('<li></li>');
     $pokemonList.append($listItem);
     var $button = $('<button class="pokemon-name">' + pokemon.name + '</button>');
-    listItem.append($button);
-    button.on('click', function() {
+    $listItem.append($button);
+    $button.on('click', function() {
       showDetails(pokemon)
     })
   }
@@ -65,30 +65,22 @@ var pokemonRepository = (function() {    //Start of IIFE
   //Funtion to create reusable modal
   function createReusableModal() {
 
-    var modal = document.createElement('div');
-    var modalElement1 = document.createElement('div');
-    var modalElement2 = document.createElement('div');
-    modalElement2.classList.add('pokemon-info')
-    modal.classList.add('modal');
-    modal
+    var $modal = $('<div class="modal"></div>');
+    $modalContainer.append($modal);
+    var $modalElement1 = $('<div></div>');
+    $modal.append($modalElement1);
+    var $modalElement2 = $('<div class="pokemon-info"></div>');
+    $modal.append($modalElement2);
 
-    var closeButtonElement = document.createElement('button');
-    closeButtonElement.classList.add('modal-close');
-    closeButtonElement.innerText = 'Close';
-    //closeButtonElement.addEventListener('click', hideModal)
+    var $closeButtonElement = $('<button class="modal-close">Close</button>');
+    $modalElement1.append($closeButtonElement);
 
-    var nameElement = document.createElement('h1');
-    var imageElement = document.createElement('img');
-    imageElement.classList.add('pokemon-img');
-    var heightElement = document.createElement('p');
-
-    modalElement1.appendChild(closeButtonElement);
-    modal.appendChild(modalElement1);
-    modalElement2.appendChild(nameElement);
-    modalElement2.appendChild(imageElement);
-    modalElement2.appendChild(heightElement);
-    modal.appendChild(modalElement2)
-    $modalContainer.appendChild(modal);
+    var $nameElement = $('<h1></h1>');
+    $modalElement2.append($nameElement);
+    var $imageElement = $('<img class="pokemon-img">');
+    $modalElement2.append($imageElement);
+    var $heightElement = $('<p></p>');
+    $modalElement2.append($heightElement);
   }
 
   //Function to show modal for Pokemon data
@@ -105,13 +97,13 @@ var pokemonRepository = (function() {    //Start of IIFE
     var heightElement = document.querySelector('p');
     heightElement.innerText = 'Height: ' + item.height;
 
-    $modalContainer.classList.add('is-visible');
+    $modalContainer.addClass('is-visible');
   }
 
   //Function to hide modal
   function hideModal() {
     //var $modalContainer = document.querySelector('#modal-container');
-    $modalContainer.classList.remove('is-visible');
+    $modalContainer.removeClass('is-visible');
   }
 
   //Function to show details of each Pokemon
@@ -136,7 +128,7 @@ var pokemonRepository = (function() {    //Start of IIFE
     // We only want to close if the user clicks directly on the overlay
     var target = e.target;
     console.log('TCL: pokemonRepository -> target', target);
-    var $modalClose = document.querySelector('.modal-close');
+    var $modalClose = $('.modal-close');
     if (target === $modalContainer || $modalClose) {
       hideModal();
     }

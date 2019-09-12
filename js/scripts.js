@@ -2,8 +2,8 @@
 var pokemonRepository = (function() {    //Start of IIFE
   var repository = [];
   var apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=150';
-  var $modalContainer = document.querySelector('#modal-container');
-  var $pokemonList = document.querySelector('ul');
+  var $modalContainer = $('#modal-container');
+  var $pokemonList = $('ul');
 
   //Function to add new Pokemon data
   function add(pokemon) {
@@ -22,13 +22,11 @@ var pokemonRepository = (function() {    //Start of IIFE
 
   //Function to add list for each pokemon object
   function addListItem(pokemon) {
-    var listItem = document.createElement('li');
-    var button = document.createElement('button');
-    button.innerText = pokemon.name;
-    button.classList.add('pokemon-name');
-    listItem.appendChild(button);
-    $pokemonList.appendChild(listItem)
-    button.addEventListener('click', function() {
+    var $listItem = $('<li></li>');
+    $pokemonList.append($listItem);
+    var $button = $('<button class="pokemon-name">' + pokemon.name + '</button>');
+    listItem.append($button);
+    button.on('click', function() {
       showDetails(pokemon)
     })
   }
@@ -127,13 +125,13 @@ var pokemonRepository = (function() {    //Start of IIFE
     });
   }
 
-  window.addEventListener('keydown', function(e) {
+  $modalContainer.on('keydown', function(e) {
     if (e.key === 'Escape' && $modalContainer.classList.contains('is-visible')) {
       hideModal();
     }
   });
 
-  $modalContainer.addEventListener('click', (e) => {
+  $modalContainer.on('click', (e) => {
     // Since this is also triggered when clicking INSIDE the modal
     // We only want to close if the user clicks directly on the overlay
     var target = e.target;

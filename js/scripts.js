@@ -33,8 +33,8 @@ var pokemonRepository = (function() {    //Start of IIFE
 
   //Function to load pokemon list from API
   function loadList() {
-    return fetch(apiUrl).then(function(response) {
-      return response.json();
+    return $.ajax(apiUrl, {dataType: 'json'}).then(function(responseJSON) {
+      return responseJSON;
     }).then(function(json) {
       json.results.forEach(function(item) {
         var pokemon = {
@@ -50,8 +50,8 @@ var pokemonRepository = (function() {    //Start of IIFE
 
   function loadDetails(item) {
     var url = item.detailsUrl;
-    return fetch(url).then(function(response) {
-      return response.json();
+    return $.ajax(url, {dataType: 'json'}).then(function(responseJSON) {
+      return responseJSON;
     }).then(function(details) {
       item.imageUrl = details.sprites.front_default;
       item.height = details.height;
@@ -88,14 +88,14 @@ var pokemonRepository = (function() {    //Start of IIFE
     console.log('TCL: showModal -> item', item.name.charAt(0).toUpperCase() + item.name.slice(1));
 
     //create element for Pokemon name
-    var nameElement = document.querySelector('h1');
-    nameElement.innerText = item.name.charAt(0).toUpperCase() + item.name.slice(1);
+    var nameElement = $('h1');
+    nameElement.append(item.name.charAt(0).toUpperCase() + item.name.slice(1));
 
-    var imageElement = document.querySelector('.pokemon-img');
-    imageElement.setAttribute('src', item.imageUrl);
+    var imageElement = $('.pokemon-img');
+    imageElement.attr('src', item.imageUrl);
 
-    var heightElement = document.querySelector('p');
-    heightElement.innerText = 'Height: ' + item.height;
+    var heightElement = $('p');
+    heightElement.append('Height: ' + item.height);
 
     $modalContainer.addClass('is-visible');
   }

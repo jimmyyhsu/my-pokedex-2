@@ -2,7 +2,6 @@
 var pokemonRepository = (function() {    //Start of IIFE
   var repository = [];
   var apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=150';
-  var $modalContainer = $('#modal-container');
   var $pokemonList = $('ul');
 
   //Function to add new Pokemon data
@@ -24,7 +23,7 @@ var pokemonRepository = (function() {    //Start of IIFE
   function addListItem(pokemon) {
     var $listItem = $('<li></li>');
     $pokemonList.append($listItem);
-    var $button = $('<button class="pokemon-name">' + pokemon.name + '</button>');
+    var $button = $('<button type="button" class="btn btn-outline-light" data-toggle="modal" data-target="#exampleModalCenter">' + pokemon.name + '</button>');
     $listItem.append($button);
     $button.on('click', function() {
       showDetails(pokemon)
@@ -62,48 +61,19 @@ var pokemonRepository = (function() {    //Start of IIFE
     })
   }
 
-  //Funtion to create reusable modal
-  function createReusableModal() {
-
-    var $modal = $('<div class="modal"></div>');
-    $modalContainer.append($modal);
-    var $modalElement1 = $('<div></div>');
-    $modal.append($modalElement1);
-    var $modalElement2 = $('<div class="pokemon-info"></div>');
-    $modal.append($modalElement2);
-
-    var $closeButtonElement = $('<button class="modal-close">Close</button>');
-    $modalElement1.append($closeButtonElement);
-
-    var $nameElement = $('<h1></h1>');
-    $modalElement2.append($nameElement);
-    var $imageElement = $('<img class="pokemon-img">');
-    $modalElement2.append($imageElement);
-    var $heightElement = $('<p></p>');
-    $modalElement2.append($heightElement);
-  }
-
   //Function to show modal for Pokemon data
   function showModal(item) {
-    console.log('TCL: showModal -> item', item.name.charAt(0).toUpperCase() + item.name.slice(1));
+    console.log('TCL: showModal -> item', item.imageUrl);
 
     //create element for Pokemon name
-    var nameElement = $('h1');
-    nameElement.append(item.name.charAt(0).toUpperCase() + item.name.slice(1));
+    var $nameElement = $('h5');
+    $nameElement.html(item.name.charAt(0).toUpperCase() + item.name.slice(1));
 
-    var imageElement = $('.pokemon-img');
-    imageElement.attr('src', item.imageUrl);
+    var $imageElement = $('<img src="' + item.imageUrl + '">')
+    $('div.pokemon-img').html($imageElement)
 
-    var heightElement = $('p');
-    heightElement.append('Height: ' + item.height);
-
-    $modalContainer.addClass('is-visible');
-  }
-
-  //Function to hide modal
-  function hideModal() {
-    //var $modalContainer = document.querySelector('#modal-container');
-    $modalContainer.removeClass('is-visible');
+    var $heightElement = $('div.pokemon-info');
+    $heightElement.html('Height: ' + item.height);
   }
 
   //Function to show details of each Pokemon
@@ -117,41 +87,20 @@ var pokemonRepository = (function() {    //Start of IIFE
     });
   }
 
-  $modalContainer.on('keydown', function(e) {
-    if (e.key === 'Escape' && $modalContainer.classList.contains('is-visible')) {
-      hideModal();
-    }
-  });
-
-  $modalContainer.on('click', (e) => {
-    // Since this is also triggered when clicking INSIDE the modal
-    // We only want to close if the user clicks directly on the overlay
-    var target = e.target;
-    console.log('TCL: pokemonRepository -> target', target);
-    var $modalClose = $('.modal-close');
-    if (target === $modalContainer || $modalClose) {
-      hideModal();
-    }
-  })
-
   return{
     add: add,
     getAll: getAll,
     addListItem: addListItem,
-    showDetails: showDetails,
+    //showDetails: showDetails,
     loadList: loadList,
     loadDetails: loadDetails,
-    createReusableModal: createReusableModal,
-    showModal: showModal,
-    hideModal: hideModal
+    //showModal: showModal,
   };
 })();
 
 
 //Creates list of Pokemon with Pokemon's name on the button
 pokemonRepository.loadList().then(function() {
-  //Create a reusable modal once
-  pokemonRepository.createReusableModal();
   // Now the data is loaded!
   pokemonRepository.getAll().forEach(function(pokemon){
     pokemonRepository.addListItem(pokemon);

@@ -23,7 +23,7 @@ var pokemonRepository = (function() {    //Start of IIFE
   function addListItem(pokemon) {
     var $listItem = $('<li></li>');
     $pokemonList.append($listItem);
-    var $button = $('<button type="button" class="btn btn-outline-light" data-toggle="modal" data-target="#exampleModalCenter">' + pokemon.name + '</button>');
+    var $button = $('<button type="button" id="pokemon-button" class="btn btn-outline-light" data-toggle="modal" data-target="#exampleModalCenter">' + pokemon.name + '</button>');
     $listItem.append($button);
     $button.on('click', function() {
       showDetails(pokemon)
@@ -91,10 +91,10 @@ var pokemonRepository = (function() {    //Start of IIFE
     add: add,
     getAll: getAll,
     addListItem: addListItem,
-    //showDetails: showDetails,
+    showDetails: showDetails,
     loadList: loadList,
     loadDetails: loadDetails,
-    //showModal: showModal,
+    showModal: showModal,
   };
 })();
 

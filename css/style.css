@@ -14,15 +14,6 @@ li {
   justify-content: center;
 }
 
-button {
-  margin-bottom: 5px;
-  width: 240px;
-  height: 50px;
-  border: 2px solid;
-  font-size: 15px;
-  border-radius: 4px;
-}
-
 button:hover, button:focus {
   cursor: pointer;
   opacity: 0.8;
@@ -36,6 +27,14 @@ button:hover, button:focus {
   margin-top: 40px;
 }
 
+#pokemon-button {
+  margin-bottom: 5px;
+  width: 240px;
+  height: 50px;
+  border: 2px solid;
+  font-size: 15px;
+  border-radius: 4px;
+}
 
 #background {
   background-image: url(../img/umbreon1.jpg);
